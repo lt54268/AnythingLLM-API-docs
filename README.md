@@ -4,7 +4,7 @@
 curl -X 'GET' \
   'http://192.168.100.153:3001/api/v1/auth' \
   -H 'accept: application/json' \
-  -H 'Authorization: Bearer G0BM9Y3-MTVMFTR-QJNC7R5-84NF5B3'
+  -H 'Authorization: Bearer G0xxx-xxx-xxx-xxxB3'
 
 
 请求结果：
