@@ -57,7 +57,7 @@ curl -X 'GET' \
 {
   "users": [
     {
-      "id": 1,
+      "id": 1,                                      // 用户ID，后续经常用到
       "username": "admin1",
       "pfpFilename": null,
       "role": "admin",
@@ -126,13 +126,6 @@ curl -X 'POST' \
 ```
 ###  响应：
 #### 1、响应体：
-##### 响应状态：400
-```
-{
-  "user": null,
-  "error": "password should be at least 8 characters long"
-}
-```
 ##### 响应状态：200
 ```
 {
@@ -144,6 +137,14 @@ curl -X 'POST' \
   "error": null
 }
 ```
+##### 响应状态：400
+```
+{
+  "user": null,
+  "error": "password should be at least 8 characters long"
+}
+```
+
 ##### 响应状态：401
 ```
 AnythingLLM未处于多用户模式
@@ -186,7 +187,7 @@ curl -X 'POST' \
 ```
 ### 请求：
 #### 1、请求方法：POST
-#### 2、请求地址：'http://服务器IP:3001/api/v1/admin/users/用户ID'
+#### 2、请求地址：'http://服务器IP:3001/api/v1/admin/users/{用户ID}'
 #### 3、请求头：
 'accept: application/json'
 
@@ -240,13 +241,13 @@ AnythingLLM未处于多用户模式
 ## 五、通过用户ID删除用户
 ```
 curl -X 'DELETE' \
-  'http://服务器IP/api/v1/admin/users/用户ID' \
+  'http://服务器IP:3001/api/v1/admin/users/用户ID' \
   -H 'accept: application/json' \
   -H 'Authorization: Bearer G0xxx-xxx-xxx-xxxB3'
 ```
 ### 请求：
 #### 1、请求方法：DELETE
-#### 2、请求地址：'http://服务器IP/api/v1/admin/users/用户ID'
+#### 2、请求地址：'http://服务器IP:3001/api/v1/admin/users/{用户ID}'
 #### 3、请求头：
 'accept: application/json'
 
@@ -295,7 +296,7 @@ curl -X 'GET' \
 ```
 ### 请求：
 #### 1、请求方法：GET
-#### 2、请求地址：'http://服务器IP:3001/api/v1/admin/workspaces/工作区ID/users'
+#### 2、请求地址：'http://服务器IP:3001/api/v1/admin/workspaces/{工作区ID}/users'
 #### 3、请求头：
 'accept: application/json'
 
@@ -343,7 +344,7 @@ AnythingLLM未处于多用户模式
 ## 七、重写工作区权限，使其只能由给定的用户ID和管理员访问
 ```
 curl -X 'POST' \
-  'http://服务器IP/api/v1/admin/workspaces/工作区ID/update-users' \
+  'http://服务器IP:3001/api/v1/admin/workspaces/工作区ID/update-users' \
   -H 'accept: application/json' \
   -H 'Authorization: Bearer G0xxx-xxx-xxx-xxxB3' \
   -H 'Content-Type: application/json' \
@@ -356,7 +357,7 @@ curl -X 'POST' \
 ```
 ### 请求：
 #### 1、请求方法：POST
-#### 2、请求地址：'http://服务器IP/api/v1/admin/workspaces/工作区ID/update-users'
+#### 2、请求地址：'http://服务器IP:3001/api/v1/admin/workspaces/{工作区ID}/update-users'
 #### 3、请求头：
 'accept: application/json'
 
@@ -885,7 +886,7 @@ curl -X 'GET' \
     {
       "id": 1,
       "name": "test1",
-      "slug": "test1",
+      "slug": "test1",                                      // 工作区的唯一标号，后续经常用到
       "vectorTag": null,
       "createdAt": "2024-08-22T09:18:46.284Z",
       "openAiTemp": null,
@@ -904,7 +905,7 @@ curl -X 'GET' \
       "threads": [
         {
           "user_id": null,
-          "slug": "eedbd9c2-ae12-4970-8672-745c9f49fa5d"
+          "slug": "eedbd9c2-ae12-4970-8672-745c9f49fa5d"  // 对话窗口的唯一标号，后续经常用到
         }
       ]
     },
@@ -962,7 +963,7 @@ curl -X 'DELETE' \
 ```
 ### 请求：
 #### 1、请求方法：DELETE
-#### 2、请求地址：'http://服务器IP:3001/api/v1/workspaces/{slug}'
+#### 2、请求地址：'http://服务器IP:3001/api/v1/workspaces/{工作区的slug}'
 #### 3、请求头：
 ```
 'accept: */*'
@@ -1016,7 +1017,7 @@ curl -X 'POST' \
 ```
 ### 请求：
 #### 1、请求方法：POST
-#### 2、请求地址：'http://服务器IP:3001/api/v1/workspace/{slug}/update'
+#### 2、请求地址：'http://服务器IP:3001/api/v1/workspace/{工作区的slug}/update'
 #### 3、请求头：
 'accept: application/json'
 
@@ -1027,8 +1028,8 @@ curl -X 'POST' \
 ```
 {
   "name": "Updated Workspace Name",
-  "openAiTemp": 0.2,  // 模型温度，数字越高模型越有创意
-  "openAiHistory": 20,  // 模型记忆中的先前聊天的数量，推荐20，任何超过45的值都可能导致连续聊天失败
+  "openAiTemp": 0.2,                                                                                        // 模型温度，数字越高模型越有创意
+  "openAiHistory": 20,                                                                                      // 模型记忆中的先前聊天的数量，推荐20，任何超过45的值都可能导致连续聊天失败
   "openAiPrompt": "Respond to all inquires and questions in binary - do not respond in any other format."  // 角色预设
 }
 ```
@@ -1104,7 +1105,7 @@ curl -X 'POST' \
 ```
 ### 请求：
 #### 1、请求方法：POST
-#### 2、请求地址：'http://服务器IP:3001/api/v1/workspaces/{slug}/update-embeddings'
+#### 2、请求地址：'http://服务器IP:3001/api/v1/workspaces/{工作区的slug}/update-embeddings'
 #### 3、请求头：
 'accept: application/json'
 
@@ -1203,7 +1204,7 @@ curl -X 'POST' \
 ```
 ### 请求：
 #### 1、请求方法：POST
-#### 2、请求地址：'http://服务器IP:3001/api/workspaces/{slug}/update-pin'
+#### 2、请求地址：'http://服务器IP:3001/api/workspaces/{工作区的slug}/update-pin'
 #### 3、请求头：
 'accept: application/json'
 
@@ -1214,7 +1215,7 @@ curl -X 'POST' \
 ```
 {
   "docPath": "custom-documents/my-pdf.pdf-hash.json",
-  "pinStatus": true
+  "pinStatus": true                                     // 或是flase
 }
 ```
 ###  响应：
@@ -1251,7 +1252,7 @@ Not Found
  vary: Origin 
  x-powered-by: Express 
 ```
-## 十九、与工作区进行对话
+## 十九、通过API密钥与工作区进行对话
 ```
 curl -X 'POST' \
   'http://服务器IP:3001/api/v1/workspace/需要进行对话的工作区的slug/chat' \
@@ -1265,7 +1266,7 @@ curl -X 'POST' \
 ```
 ### 请求：
 #### 1、请求方法：POST
-#### 2、请求地址：'http://服务器IP:3001/api/v1/workspace/{slug}/chat'
+#### 2、请求地址：'http://服务器IP:3001/api/v1/workspace/{工作区的slug}/chat'
 #### 3、请求头：
 'accept: application/json'
 
@@ -1276,7 +1277,7 @@ curl -X 'POST' \
 ```
 {
   "message": "分享会的开始时间?",
-  "mode": "query | chat"  // query为查询模式，chat为聊天模式
+  "mode": "query | chat"         // query为查询模式，chat为聊天模式
 }
 ```
 ### 响应
@@ -1365,7 +1366,7 @@ Bad Request
  vary: Origin 
  x-powered-by: Express
 ```
-## 二十、使用工作区执行流式聊天
+## 二十、使用API与工作区执行流式聊天
 ```
 curl -X 'POST' \
   'http://服务器IP:3001/api/v1/workspace/需要进行对话的工作区的slug/stream-chat' \
@@ -1379,7 +1380,7 @@ curl -X 'POST' \
 ```
 ### 请求：
 #### 1、请求方法：POST
-#### 2、请求地址：'http://服务器IP:3001/api/v1/workspace/{slug}/stream-chat'
+#### 2、请求地址：'http://服务器IP:3001/api/v1/workspace/{工作区的slug}/stream-chat'
 #### 3、请求头：
 'accept: text/event-stream'
 
@@ -1390,7 +1391,7 @@ curl -X 'POST' \
 ```
 {
   "message": "分享会的开始时间?",
-  "mode": "query | chat"  // query为查询模式，chat为聊天模式
+  "mode": "query | chat"        // query为查询模式，chat为聊天模式
 }
 ```
 ### 响应
@@ -1621,7 +1622,7 @@ curl -X 'DELETE' \
  vary: Origin 
  x-powered-by: Express 
 ```
-## 二十二、在某个工作区新建对话
+## 二十二、在某个工作区新建对话窗口
 ```
 curl -X 'POST' \
   'http://服务器IP:3001/api/v1/workspace/需要新建对话的工作区的slug/thread/new' \
@@ -1634,7 +1635,7 @@ curl -X 'POST' \
 ```
 ### 请求：POST
 #### 1、请求方法：
-#### 2、请求地址：'http://服务器IP:3001/api/v1/workspace/{slug}/thread/new'
+#### 2、请求地址：'http://服务器IP:3001/api/v1/workspace/{工作区的slug}/thread/new'
 #### 3、请求头：
 'accept: application/json'
 
@@ -1655,8 +1656,8 @@ curl -X 'POST' \
   "thread": {
     "id": 20,
     "name": "Thread",
-    "slug": "a8fe6a14-440a-4caf-9f70-c208981f7bec",
-    "workspace_id": 8,
+    "slug": "a8fe6a14-440a-4caf-9f70-c208981f7bec",    // 新建成功的对话窗口的ID
+    "workspace_id": 8,                                 // 工作区的ID
     "user_id": 1,
     "createdAt": "2024-08-28T09:27:23.531Z",
     "lastUpdatedAt": "2024-08-28T09:27:23.531Z"
@@ -1690,7 +1691,7 @@ Bad Request
  vary: Origin 
  x-powered-by: Express 
 ```
-## 二十三、在某个工作区删除对话
+## 二十三、在某个工作区删除对话窗口
 ```
 curl -X 'DELETE' \
   'http://服务器IP:3001/api/v1/workspace/需要删除对话所在的工作区的slug/thread/需要删除对话的slug' \
@@ -1699,7 +1700,7 @@ curl -X 'DELETE' \
 ```
 ### 请求：DELETE
 #### 1、请求方法：
-#### 2、请求地址：'http://服务器IP:3001/api/v1/workspace/{slug}/thread/{slug}'
+#### 2、请求地址：'http://服务器IP:3001/api/v1/workspace/{工作区的slug}/thread/{对话窗口的slug}'
 #### 3、请求头：
 ```
 'accept: */*'
@@ -1725,10 +1726,10 @@ Bad Request
 ```
 内部服务器错误
 ```
-## 二十四、在某个工作区的新建对话列表进行聊天
+## 二十四、在某个工作区的新建对话窗口进行聊天
 ```
 curl -X 'POST' \
-  'http://服务器IP:3001/api/v1/workspace/需要进行对话的工作区的slug/thread/需要进行对话的窗口的slug/对话模式' \
+  'http://服务器IP:3001/api/v1/workspace/需要进行对话的工作区的slug/thread/需要进行对话的窗口的slug/chat' \
   -H 'accept: application/json' \
   -H 'Authorization: Bearer G0xxx-xxx-xxx-xxxB3' \
   -H 'Content-Type: application/json' \
@@ -1740,7 +1741,7 @@ curl -X 'POST' \
 ```
 ### 请求：POST
 #### 1、请求方法：
-#### 2、请求地址：'http://服务器IP:3001/api/v1/workspace/{slug}/thread/{slug}/对话模式'
+#### 2、请求地址：'http://服务器IP:3001/api/v1/workspace/{工作区的slug}/thread/{对话窗口的slug}/chat'
 #### 3、请求头：
 'accept: application/json'
 
@@ -1751,7 +1752,7 @@ curl -X 'POST' \
 ```
 {
   "message": "分享会什么时候开始?",
-  "mode": "query | chat"  // query为查询模式，chat为聊天模式
+  "mode": "query | chat"          // query为查询模式，chat为聊天模式
   "userId": 1
 }
 ```
@@ -1842,7 +1843,7 @@ curl -X 'POST' \
 ```
 ### 请求：POST
 #### 1、请求方法：
-#### 2、请求地址：'http://服务器IP:3001/api/v1/workspace/{slug}/thread/{slug}/stream-对话模式'
+#### 2、请求地址：'http://服务器IP:3001/api/v1/workspace/{工作区的slug}/thread/{对话窗口的slug}/stream-chat'
 #### 3、请求头：
 'accept: text/event-stream'
 
@@ -1853,7 +1854,7 @@ curl -X 'POST' \
 ```
 {
   "message": "分享会什么时候开始?",
-  "mode": "query | chat"  // query为查询模式，chat为聊天模式
+  "mode": "query | chat"          // query为查询模式，chat为聊天模式
   "userId": 1
 }
 ```
