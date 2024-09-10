@@ -36,7 +36,7 @@ curl -X 'GET' \
  vary: Origin 
  x-powered-by: Express 
 ```
-## 二、查看每个API密钥所对应的用户信息
+## 二、通过API密钥查看详细的用户信息
 ```
 curl -X 'GET' \
   'http://服务器IP:3001/api/v1/admin/users' \
